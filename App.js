@@ -6,30 +6,82 @@ import {
   StyleSheet,
   StatusBar,
   Dimensions,
-  Platform
+  Platform,
+  Text
 } from "react-native";
+import { requestReadStoragePermission } from "./src/AndroiPermissionFile";
+// https://www.tatacliq.com/
+//https://alpha.woovly.com
+//  uri: "https://www.tatacliq.com"
 const height = Dimensions.get("window").height;
-const Temp = () => {
-  console.log("Height", height);
-  return (
-    <View style={styles.container}>
-      <StatusBar translucent={true} barStyle={"light-content"} />
-      <WebView
-        source={{ uri: "https://alpha.woovly.com" }}
-        style={{ marginTop: Platform.OS === "ios" ? 20 : 0 }}
-      />
-    </View>
-  );
+
+const url = "https://www.woovly.com/bucket-list";
+// const url = "https://alpha.woovly.com";
+
+const patchPostMessageFunction = function() {
+  var originalPostMessage = window.postMessage;
+
+  var patchedPostMessage = function(message, targetOrigin, transfer) {
+    originalPostMessage(message, targetOrigin, transfer);
+  };
+
+  patchedPostMessage.toString = function() {
+    return String(Object.hasOwnProperty).replace(
+      "hasOwnProperty",
+      "postMessage"
+    );
+  };
+
+  window.postMessage = patchedPostMessage;
 };
-Temp.navigationOptions = {
-  title: ""
-};
-export default Temp;
+
+const patchPostMessageJsCode =
+  Platform.OS === "ios" ? "(" + String(patchPostMessageFunction) + ")();" : "";
+
+export default class App extends Component {
+  componentDidMount() {
+    requestReadStoragePermission();
+  }
+
+  render() {
+    if (Platform.OS === "ios") {
+      return (
+        <View style={styles.container}>
+          <WebView
+            bounces={false}
+            source={{
+              uri: url
+            }}
+            style={{
+              marginTop: 20
+            }}
+            injectedJavaScript={patchPostMessageJsCode}
+            onMessage={m => this.onMessage(m)}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <StatusBar backgroundColor={"white"} barStyle="dark-content" />
+          <WebView
+            source={{
+              uri: url
+            }}
+            style={{
+              marginTop: 0
+            }}
+            onMessage={m => this.onMessage(m)}
+          />
+        </View>
+      );
+    }
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
-    height: height,
-    flexDirection: "column",
-    backgroundColor: "#505F69"
+    flex: 1,
+    backgroundColor: "white"
   }
 });
