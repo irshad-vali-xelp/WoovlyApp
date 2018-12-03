@@ -1,0 +1,13 @@
+export const SIGN_IN = "Sign In";
+export const LOGIN_TO_SEE_MORE = "Login to see more";
+export const CONTINUE_WITH_GOOGLE = "Continue with Google";
+export const CONTINUE_WITH_FACEBOOK = "Continue with FaceBook";
+export const AGREE_TO_WOOVLY = "By continuing, you agree to Woovly";
+export const TERMS_OF_SERVICE = "Terms of Service, Privacy Policy";
+export const NOT_A_WOOVLY_YET = "Not on Woovly yet? Signup";
+export const SIGN_UP = "Sign Up";
+export const WELCOME_TO_WOOVLY = "Welcome to Woovly";
+export const ALREADY_A_MEMBER = "Already a Member? Login";
+export const NEVER_MIND = "Never Mind!";
+export const IT_CAN_HAPPEN = "It can happen to the best of us";
+export const SUBMIT = "Submit";
