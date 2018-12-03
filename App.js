@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import SignIn from "./src/auth/SignIn";
+import SignIn from "./src/auth/components/SignIn";
+import SignUp from "./src/auth/components/SignUp";
 import WebPage from "./src/web/WebPage";
+import ForgotPassword from "./src/auth/components/ForgotPassword";
 const WoovlyStack = createStackNavigator({
   SignIn: { screen: SignIn },
+  SignUp: { screen: SignUp },
+  ForgotPassword: { screen: ForgotPassword },
   WebPage: { screen: WebPage }
 });
 
