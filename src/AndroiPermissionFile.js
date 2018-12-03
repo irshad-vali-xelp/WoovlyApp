@@ -4,8 +4,8 @@ export const requestCameraPermission = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
       {
-        title: "Basis App Camera Permission",
-        message: "Basis App needs access to your camera "
+        title: "Woovly App Camera Permission",
+        message: "Woovly App needs access to your camera "
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -23,8 +23,8 @@ export const requestReadContactPermission = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
       {
-        title: "Basis App Read Contact",
-        message: "Basis App needs access to your contact "
+        title: "Woovly App Read Contact",
+        message: "Woovly App needs access to your contact "
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -42,8 +42,8 @@ export const requestWriteContactPermission = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.WRITE_CONTACTS,
       {
-        title: "Basis App Write Contact",
-        message: "Basis App needs access to your contact "
+        title: "Woovly App Write Contact",
+        message: "Woovly App needs access to your contact "
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -61,8 +61,8 @@ export const requestReadStoragePermission = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
       {
-        title: "Basis App Read Storage",
-        message: "Basis App needs access to your Storage "
+        title: "Woovly App Read Storage",
+        message: "Woovly App needs access to your Storage "
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -79,8 +79,8 @@ export const requestWriteStoragePermission = async () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       {
-        title: "Basis App Read Storage",
-        message: "Basis App needs access to your Storage "
+        title: "Woovly App Read Storage",
+        message: "Woovly App needs access to your Storage "
       }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
