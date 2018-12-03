@@ -1,22 +1,24 @@
 import { StyleSheet } from "react-native";
 
-var marginLeft = 15,
-  marginRight = 15;
 const InputStyles = StyleSheet.create({
-  input: {
-    marginLeft: 15,
-    marginRight: 15,
-    marginTop: 20,
-    height: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
-    color: "black",
-    backgroundColor: "#e6e6e6",
-    width: 300,
-    borderRadius: 3
+  borderContainer: {
+    backgroundColor: "#e6eaea",
+    flexDirection: "row",
+    paddingHorizontal: 10,
+    height: 45,
+    alignItems: "center",
+    marginTop: 10,
+    borderRadius: 2
   },
-  container: {
-    marginTop: 10
+  inputHolder: {
+    height: "100%",
+    flex: 1
+  },
+  input: {
+    height: 45,
+    fontSize: 14,
+    padding: 10,
+    color: "#15181b"
   }
 });
 export default InputStyles;

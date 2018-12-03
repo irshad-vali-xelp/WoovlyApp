@@ -129,10 +129,8 @@ Button.defaultProps = {
   buttonStyle: styles.container,
   iconSize: 30,
   labelPosition: "right",
-
   labelStyle: styles.label,
   indicatorSize: "small",
-
   opacity: 0.7,
   contentHolder: styles.content
 };

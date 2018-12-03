@@ -4,11 +4,11 @@ const ButtonStyles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
-    width: 200,
-    backgroundColor: "#d00000",
+    height: 40,
+    width: "100%",
+    backgroundColor: "#ff7578",
     flexDirection: "row",
-    borderRadius: 3,
+    borderRadius: 2,
     marginTop: 10
   },
   topText: {
