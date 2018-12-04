@@ -7,14 +7,14 @@ import {
   StatusBar,
   Dimensions,
   Platform,
-  Text
+  Text,
+  TouchableOpacity
 } from "react-native";
 import { requestReadStoragePermission } from "../../src/AndroiPermissionFile";
 
 const height = Dimensions.get("window").height;
-
-// const url = "https://www.woovly.com/bucket-list";
-const url = "https://alpha.woovly.com";
+const url = "https://alpha.woovly.com/";
+//const url = "http://10.10.10.171:8080";
 
 const patchPostMessageFunction = function() {
   var originalPostMessage = window.postMessage;
@@ -37,9 +37,22 @@ const patchPostMessageJsCode =
   Platform.OS === "ios" ? "(" + String(patchPostMessageFunction) + ")();" : "";
 
 export default class WebPage extends Component {
-  componentDidMount() {
-    requestReadStoragePermission();
+  constructor(props) {
+    super(props);
+    const { params } = this.props.navigation.state;
+    let userObject = params.USERDATA;
+    console.log(params.userObject);
+    this.state = {
+      userData: userObject
+    };
   }
+  static navigationOptions = {
+    header: null
+  };
+  sendData = () => {
+    let values = this.state.userData;
+    this.webView.postMessage(values);
+  };
 
   render() {
     if (Platform.OS === "ios") {
@@ -55,6 +68,8 @@ export default class WebPage extends Component {
             }}
             injectedJavaScript={patchPostMessageJsCode}
             onMessage={m => this.onMessage(m)}
+            ref={view => (this.webView = view)}
+            onLoad={() => this.sendData()}
           />
         </View>
       );
@@ -70,6 +85,8 @@ export default class WebPage extends Component {
               marginTop: 0
             }}
             onMessage={m => this.onMessage(m)}
+            ref={view => (this.webView = view)}
+            onLoad={() => this.sendData()}
           />
         </View>
       );

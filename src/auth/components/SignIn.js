@@ -57,8 +57,12 @@ class SignIn extends Component {
       })
         .then(response => response.json())
         .then(responseJson => {
-          AsyncStorage.setItem("USER", JSON.stringify(responseJson));
-          this.navigateToWebPage();
+          if (responseJson.error.errCode === 0) {
+            AsyncStorage.setItem("USER", JSON.stringify(responseJson));
+            this.navigateToWebPage(JSON.stringify(responseJson));
+          } else {
+            alert(responseJson.error.errMsg);
+          }
         })
         .catch(error => {
           console.error(error);
@@ -80,9 +84,10 @@ class SignIn extends Component {
     navigate(SIGN_UP_CONTAINER, {});
   };
 
-  navigateToWebPage = () => {
+  navigateToWebPage = signInData => {
+    console.log("signInData", signInData);
     var { navigate } = this.props.navigation;
-    navigate(WEB_PAGE, {});
+    navigate(WEB_PAGE, { USERDATA: signInData });
   };
   render() {
     return (

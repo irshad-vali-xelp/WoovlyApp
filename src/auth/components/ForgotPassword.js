@@ -10,7 +10,7 @@ import {
   SUBMIT,
   NOT_A_WOOVLY_YET
 } from "../../utils/Constants";
-import { SIGN_UP_CONTAINER } from "../../utils/routes";
+import { SIGN_UP_CONTAINER, SIGN_IN_CONTAINER } from "../../utils/routes";
 
 // create a component
 class ForgotPassword extends Component {
@@ -20,12 +20,42 @@ class ForgotPassword extends Component {
     });
   };
 
-  forgotPassword = () => {};
+  forgotPassword = () => {
+    if (this.state.email) {
+      fetch("https://alpha.woovly.com/sendPasswordLink", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: this.state.email
+        })
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.error.errCode === 0) {
+            this.goToSignIn();
+          } else {
+            alert(responseJson.error.errMsg);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      alert("Please enter your email.");
+    }
+  };
 
   goToSignUp = () => {
     var { navigate } = this.props.navigation;
-
     navigate(SIGN_UP_CONTAINER, {});
+  };
+
+  goToSignIn = () => {
+    var { navigate } = this.props.navigation;
+    navigate(SIGN_IN_CONTAINER, {});
   };
 
   render() {

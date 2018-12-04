@@ -1,6 +1,6 @@
 //import libraries
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, AsyncStorage } from "react-native";
 import Input from "../../corecomponent/input/input";
 import Button from "../../corecomponent/button/Button";
 import styles from "../styles/AuthStyles";
@@ -13,7 +13,7 @@ import {
   TERMS_OF_SERVICE,
   ALREADY_A_MEMBER
 } from "../../utils/Constants";
-import { SIGN_IN_CONTAINER } from "../../utils/routes";
+import { SIGN_IN_CONTAINER, WEB_PAGE } from "../../utils/routes";
 
 // create a component
 class SignUp extends Component {
@@ -55,8 +55,6 @@ class SignUp extends Component {
     });
   };
 
-  signUp = () => {};
-
   goToSignIn = () => {
     var { navigate } = this.props.navigation;
 
@@ -66,6 +64,69 @@ class SignUp extends Component {
   goToGoogle = () => {};
   goToFacebook = () => {};
 
+  signUp = () => {
+    if (this.state.userName && this.state.password && this.state.email) {
+      fetch("https://alpha.woovly.com/addUser", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          uName: this.state.userName,
+          password: this.state.password,
+          uEmail: this.state.email,
+          dob: this.state.dateOfBirth,
+          uType: 1
+        })
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          console.log("signup", responseJson);
+          if (responseJson.error.errCode === 0) {
+            this.signIn(this.state.email, this.state.password);
+          } else {
+            alert(responseJson.error.errMsg);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      alert("Username, email and password are mandatory");
+    }
+  };
+  signIn = async (email, password) => {
+    await fetch("https://alpha.woovly.com/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log("signin", responseJson);
+        if (responseJson.error.errCode === 0) {
+          AsyncStorage.setItem("USER", JSON.stringify(responseJson));
+          this.navigateToWebPage(JSON.stringify(responseJson));
+        } else {
+          alert(responseJson.error.errMsg);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+  navigateToWebPage = signInData => {
+    console.log("signInData", signInData);
+    var { navigate } = this.props.navigation;
+    navigate(WEB_PAGE, { USERDATA: signInData });
+  };
   render() {
     return (
       <View style={styles.container}>
